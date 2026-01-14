@@ -2,206 +2,232 @@
 
 @section('content')
 <style>
-  :root{
-    --blue:#070a86;         /* main button color like screenshot */
-    --text:#0f172a;
-    --muted:#6b7280;
-    --bg:#f6f7fb;
-    --card:#ffffff;
-    --line:#e5e7eb;
-    --input:#f3f4f6;
-    --shadow: 0 14px 40px rgba(15, 23, 42, .08);
-    --radius: 12px;
-  }
+/* =====================
+   THEME VARIABLES
+===================== */
+:root{
+  --primary: #4f46e5;
+  --secondary: #06b6d4;
+  --accent: #22c55e;
+  --text: #0f172a;
+  --muted: #64748b;
+  --bg: linear-gradient(135deg, #eef2ff, #f0fdfa, #ecfeff);
+  --card-bg: rgba(255,255,255,.75);
+  --border: rgba(255,255,255,.4);
+  --radius: 18px;
+  --shadow: 0 25px 60px rgba(15,23,42,.15);
+}
 
-  /* page background */
-  .auth-page{
-    min-height: calc(100vh - 60px);
-    background: var(--bg);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding: 40px 16px;
-  }
+/* =====================
+   PAGE BACKGROUND
+===================== */
+.auth-page{
+  min-height: calc(100vh - 60px);
+  background: var(--bg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 40px 16px;
+}
 
-  /* main login card */
-  .auth-card{
-    width: 100%;
-    max-width: 920px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 54px 64px 40px;
-  }
+/* =====================
+   CARD
+===================== */
+.auth-card{
+  width:100%;
+  max-width: 460px;
+  background: var(--card-bg);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 48px 42px;
+  animation: fadeUp .9s ease forwards;
+}
 
-  .auth-title{
-    text-align:center;
-    margin: 0;
-    font-size: 44px;
-    font-weight: 800;
-    color: var(--blue);
-    letter-spacing: .2px;
-  }
-  .auth-subtitle{
-    text-align:center;
-    margin: 8px 0 34px;
-    font-size: 18px;
-    color: var(--muted);
-    font-weight: 600;
-  }
+/* =====================
+   HEADINGS
+===================== */
+.auth-title{
+  font-size: 40px;
+  font-weight: 900;
+  text-align:center;
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color: transparent;
+}
 
-  /* form layout */
-  .auth-form{
-    max-width: 760px;
-    margin: 0 auto;
-  }
+.auth-subtitle{
+  text-align:center;
+  color: var(--muted);
+  font-weight: 600;
+  margin: 10px 0 36px;
+}
 
-  .auth-control{
-    height: 64px;
-    background: var(--input);
-    border: 1px solid #eceff5;
-    border-radius: 10px;
-    padding: 0 22px;
-    font-size: 16px;
-    color: var(--text);
-  }
-  .auth-control:focus{
-    outline: none;
-    background: #fff;
-    border-color: rgba(7,10,134,.35);
-    box-shadow: 0 0 0 4px rgba(7,10,134,.08);
-  }
-  .auth-control::placeholder{
-    color:#9ca3af;
-    font-weight: 600;
-  }
+/* =====================
+   INPUTS
+===================== */
+.auth-control{
+  height: 58px;
+  width:100%;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: rgba(255,255,255,.9);
+  padding: 0 18px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all .3s ease;
+}
 
-  /* invalid state */
-  .auth-control.is-invalid{
-    border-color: #ef4444 !important;
-    box-shadow: none;
-  }
-  .invalid-feedback{
-    display:block;
-    margin-top: 10px;
-    font-weight: 600;
-  }
+.auth-control:focus{
+  outline:none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 5px rgba(79,70,229,.15);
+  transform: translateY(-1px);
+}
 
-  /* button */
-  .btn-auth{
-    height: 64px;
-    width: 100%;
-    border: 0;
-    border-radius: 12px;
-    background: var(--blue);
-    color: #fff;
-    font-weight: 800;
-    letter-spacing: .8px;
-    text-transform: uppercase;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition: transform .06s ease, opacity .2s ease;
-  }
-  .btn-auth:hover{ opacity: .95; }
-  .btn-auth:active{ transform: scale(.99); }
+.auth-control::placeholder{
+  color:#9ca3af;
+}
 
-  /* links */
-  .auth-links{
-    text-align:center;
-    margin-top: 18px;
-  }
-  .auth-link{
-    color: var(--blue);
-    text-decoration:none;
-    font-weight: 800;
-  }
-  .auth-link:hover{ text-decoration: underline; }
+.is-invalid{
+  border-color:#ef4444 !important;
+}
 
-  /* register box */
-  .auth-register{
-    width: 100%;
-    max-width: 920px;
-    margin: 18px auto 0;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 22px 18px;
-    text-align:center;
-    color: #6b7280;
-    font-weight: 700;
-  }
-  .auth-register a{
-    color: var(--blue);
-    font-weight: 900;
-    text-decoration:none;
-    margin-left: 6px;
-  }
-  .auth-register a:hover{ text-decoration: underline; }
+/* =====================
+   BUTTON
+===================== */
+.btn-auth{
+  height: 58px;
+  width:100%;
+  border-radius: 14px;
+  border:none;
+  font-weight: 900;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color:#fff;
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition: all .35s ease;
+  position: relative;
+  overflow:hidden;
+}
 
-  /* small screens */
-  @media (max-width: 768px){
-    .auth-card{ padding: 40px 18px 28px; }
-    .auth-title{ font-size: 34px; }
-    .auth-subtitle{ font-size: 16px; }
-  }
+.btn-auth::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background: linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);
+  transform: translateX(-100%);
+  transition: transform .6s ease;
+}
+
+.btn-auth:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(79,70,229,.35);
+}
+
+.btn-auth:hover::after{
+  transform: translateX(100%);
+}
+
+.btn-auth:active{
+  transform: scale(.98);
+}
+
+/* =====================
+   LINKS
+===================== */
+.auth-links{
+  text-align:center;
+  margin-top: 18px;
+}
+
+.auth-link{
+  font-weight: 800;
+  text-decoration:none;
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color: transparent;
+}
+
+.auth-link:hover{
+  text-decoration: underline;
+}
+
+/* =====================
+   REGISTER BOX
+===================== */
+.auth-register{
+  margin-top: 22px;
+  text-align:center;
+  font-weight: 700;
+  color: var(--muted);
+  animation: fadeUp 1.2s ease forwards;
+}
+
+.auth-register a{
+  font-weight: 900;
+  margin-left: 6px;
+  background: linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =====================
+   ANIMATION
+===================== */
+@keyframes fadeUp{
+  from{ opacity:0; transform: translateY(30px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+
+/* =====================
+   MOBILE
+===================== */
+@media(max-width:480px){
+  .auth-card{ padding: 36px 24px; }
+  .auth-title{ font-size: 32px; }
+}
 </style>
 
 <div class="auth-page">
-  <div style="width:100%; max-width: 940px;">
+  <div>
     <div class="auth-card">
-      <h1 class="auth-title">Sign In</h1>
-      <div class="auth-subtitle">Please enter login information</div>
+      <h1 class="auth-title">Welcome Back</h1>
+      <div class="auth-subtitle">Sign in to continue</div>
 
-
-      <form method="POST" action="{{ route('login') }}" class="auth-form">
+      <form method="POST" action="{{ route('login') }}">
         @csrf
 
         <div class="mb-4">
-          <input id="email"
-                 type="email"
-                 class="form-control auth-control @error('email') is-invalid @enderror"
+          <input type="email"
                  name="email"
                  value="{{ old('email') }}"
                  required
-                 autocomplete="email"
                  autofocus
-                 placeholder="Please enter username">
+                 class="auth-control @error('email') is-invalid @enderror"
+                 placeholder="Email address">
           @error('email')
-            <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-            </span>
+            <small class="text-danger fw-bold">{{ $message }}</small>
           @enderror
         </div>
 
         <div class="mb-4">
-          <input id="password"
-                 type="password"
-                 class="form-control auth-control @error('password') is-invalid @enderror"
+          <input type="password"
                  name="password"
                  required
-                 autocomplete="current-password"
-                 placeholder="Please enter a password">
+                 class="auth-control @error('password') is-invalid @enderror"
+                 placeholder="Password">
           @error('password')
-            <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-            </span>
+            <small class="text-danger fw-bold">{{ $message }}</small>
           @enderror
         </div>
 
-        {{-- Optional: keep remember me (hidden to match screenshot style) --}}
-        <div class="d-flex align-items-center justify-content-between mb-4" style="display:none;">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-            <label class="form-check-label" for="remember">{{ __('Remember Me') }}</label>
-          </div>
-        </div>
-
-        <button type="submit" class="btn-auth">
-          Sign In
-        </button>
+        <button class="btn-auth">Sign In</button>
 
         <div class="auth-links">
           @if (Route::has('password.request'))
@@ -214,9 +240,9 @@
     </div>
 
     <div class="auth-register">
-      Do not have an account?
+      Don’t have an account?
       @if (Route::has('register'))
-        <a href="{{ route('register') }}">Register</a>
+        <a href="{{ route('register') }}">Create one</a>
       @endif
     </div>
   </div>

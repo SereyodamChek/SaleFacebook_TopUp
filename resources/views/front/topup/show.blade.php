@@ -2,71 +2,77 @@
 
 @push('styles')
 <style>
-  /* ===== Topup QR Page (clean + modern) ===== */
   .topup-wrap{ max-width: 860px; margin: 26px auto 40px; padding: 0 16px; }
   .topup-card{ background:#fff; border:1px solid rgba(229,231,235,.9); border-radius:16px; box-shadow: 0 18px 45px rgba(0,0,0,.06); overflow:hidden; }
-  .topup-head{ padding: 18px 18px 14px; border-bottom: 1px solid rgba(229,231,235,.9); display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
-  .topup-title{ margin:0; font-size:22px; font-weight:900; letter-spacing:.2px; color:#111827; }
+  .topup-head{ padding: 18px; border-bottom: 1px solid rgba(229,231,235,.9); display:flex; justify-content:space-between; gap:12px; }
+  .topup-title{ margin:0; font-size:22px; font-weight:900; color:#111827; }
   .topup-sub{ margin-top:6px; color:#6b7280; font-weight:700; font-size:14px; }
-  .topup-amount{ display:inline-flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; background:#eef2ff; color:#1d4ed8; font-weight:900; white-space:nowrap; border:1px solid #dbeafe; }
-  .topup-body{ padding: 18px; display:grid; grid-template-columns: 1fr 300px; gap:16px; align-items:start; }
+  .topup-amount{ padding:10px 12px; border-radius:12px; background:#eef2ff; color:#1d4ed8; font-weight:900; border:1px solid #dbeafe; }
+  .topup-body{ padding:18px; display:grid; grid-template-columns: 1fr 300px; gap:16px; }
 
   .qr-box{
-    background: #f9fafb;
-    border: 1px solid rgba(229,231,235,.9);
-    border-radius: 16px;
-    padding: 18px;
+    background:#f9fafb;
+    border:1px solid rgba(229,231,235,.9);
+    border-radius:16px;
+    padding:18px;
     display:flex;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
-    min-height: 360px;
   }
 
-  .qr-hint{ margin-top: 10px; color:#6b7280; font-weight:700; font-size:13px; text-align:center; }
-  .md5{ margin-top: 10px; font-size: 12px; font-weight:800; color:#6b7280; word-break: break-all; background:#fff; border:1px dashed rgba(209,213,219,.9); border-radius:12px; padding:10px 12px; width:100%; max-width: 360px; text-align:left; }
+  .qr-hint{ margin-top:10px; color:#6b7280; font-weight:700; font-size:13px; text-align:center; }
 
-  .side-box{ background:#111827; color:#fff; border-radius: 16px; padding: 16px; box-shadow: 0 18px 45px rgba(0,0,0,.14); position: relative; overflow:hidden; }
-  .side-box::before{ content:""; position:absolute; inset:-40px -60px auto auto; width:160px; height:160px; border-radius:999px; background: rgba(59,130,246,.22); }
-
-  .timer-title{ font-weight:900; letter-spacing:.2px; margin:0 0 6px; display:flex; align-items:center; gap:10px; }
-  .countdown{ font-size: 36px; font-weight: 1000; line-height: 1; margin: 8px 0 6px; }
-  .expires{ margin:0; color: rgba(255,255,255,.8); font-weight:700; font-size:13px; }
+  .side-box{
+    background:#111827;
+    color:#fff;
+    border-radius:16px;
+    padding:16px;
+    box-shadow:0 18px 45px rgba(0,0,0,.14);
+  }
 
   .status{
-    margin-top: 12px;
-    padding: 10px 12px;
-    border-radius: 12px;
-    background: rgba(255,255,255,.10);
-    border:1px solid rgba(255,255,255,.14);
-    font-weight: 900;
-    min-height: 40px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    margin-top:12px;
+    padding:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.2);
+    font-weight:900;
     text-align:center;
+    min-height:44px;
   }
 
-  .topup-foot{ padding: 16px 18px; border-top: 1px solid rgba(229,231,235,.9); display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
+  .btn-verify{
+    margin-top:14px;
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:none;
+    background:#22c55e;
+    color:#fff;
+    font-weight:900;
+    font-size:15px;
+    cursor:pointer;
+  }
+
+  .btn-verify:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+  }
+
+  .topup-foot{ padding:16px; border-top:1px solid rgba(229,231,235,.9); display:flex; justify-content:center; gap:10px; }
 
   .btn-back{
-    display:inline-flex; align-items:center; justify-content:center; gap:10px;
-    padding: 10px 14px; border-radius: 12px; border:1px solid rgba(229,231,235,.9);
-    background:#fff; color:#111827; font-weight: 900; text-decoration:none;
-    transition: transform .06s ease, box-shadow .06s ease;
-  }
-  .btn-back:hover{ transform: translateY(-1px); box-shadow: 0 10px 25px rgba(0,0,0,.08); }
-
-  .btn-muted{
-    display:inline-flex; align-items:center; justify-content:center; gap:10px;
-    padding: 10px 14px; border-radius: 12px; border:1px solid rgba(229,231,235,.9);
-    background:#f9fafb; color:#111827; font-weight: 900; text-decoration:none;
+    padding:10px 14px;
+    border-radius:12px;
+    border:1px solid rgba(229,231,235,.9);
+    background:#fff;
+    font-weight:900;
+    text-decoration:none;
+    color:#111827;
   }
 
   @media (max-width: 860px){
-    .topup-body{ grid-template-columns: 1fr; }
-    .side-box{ order: -1; }
-    .qr-box{ min-height: 320px; }
+    .topup-body{ grid-template-columns:1fr; }
   }
 </style>
 @endpush
@@ -78,101 +84,89 @@
     <div class="topup-head">
       <div>
         <h1 class="topup-title">Scan KHQR to Topup</h1>
-        <div class="topup-sub">Open Bakong / KHQR supported app and scan to pay.</div>
+        <div class="topup-sub">
+          សូមស្កេន QR ដោយ Bakong / App ដែលគាំទ្រ KHQR
+        </div>
       </div>
 
       <div class="topup-amount">
-        Amount: {{ number_format((float)$topup->amount, 0) }} {{ $topup->currency }}
+        ${{ number_format((float)$topup->amount, 2) }}
       </div>
     </div>
 
     <div class="topup-body">
 
+      {{-- QR --}}
       <div class="qr-box">
         @if ($topup->qr)
-          {!! QrCode::size(280)->generate($topup->qr) !!}
-
-          <div class="qr-hint">Keep this page open until payment is confirmed.</div>
-
-          <div class="md5">
-            <div style="font-weight:900; color:#111827; margin-bottom:6px;">MD5</div>
-            <div style="opacity:.85;">{{ $topup->md5 }}</div>
+          {!! QrCode::size(260)->generate($topup->qr) !!}
+          <div class="qr-hint">
+            បន្ទាប់ពីបង់ប្រាក់ សូមចុចប៊ូតុង “ខ្ញុំបានបង់ប្រាក់រួច”
           </div>
         @else
-          <div class="alert alert-danger" style="width:100%; margin:0;">
-            ⚠ Failed to generate KHQR.
+          <div class="alert alert-danger">
+            ❌ មិនអាចបង្កើត KHQR បាន
           </div>
         @endif
       </div>
 
+      {{-- Status + Verify --}}
       <div class="side-box">
-        <div class="timer-title">⏳ Payment status</div>
+        <div style="font-weight:900; margin-bottom:6px;">📌 Payment Status</div>
 
-        <div id="countdown" class="countdown">120</div>
-        <p class="expires">
-          Expires in <span id="seconds">120</span> seconds.
-        </p>
+        <div id="statusBox" class="status">
+          កំពុងរង់ចាំការទូទាត់...
+        </div>
 
-        <div id="statusBox" class="status">Waiting for payment...</div>
+        <button id="verifyBtn" class="btn-verify">
+          ខ្ញុំបានបង់ប្រាក់រួច
+        </button>
 
-        <div style="margin-top:12px; color: rgba(255,255,255,.8); font-weight:700; font-size:13px; line-height:1.5;">
-          If you already paid but status doesn’t change, wait a few seconds.
-          We auto-check the transaction.
+        <div style="margin-top:10px; font-size:13px; color:rgba(255,255,255,.8);">
+          ⚠ ប្រសិនបើទូទាត់រួច សូមរង់ចាំបន្តិចមុនចុច Verify
         </div>
       </div>
 
     </div>
 
     <div class="topup-foot">
-      <a href="{{ route('store.index') }}" class="btn-back">← Back to Store</a>
-      <a href="{{ route('topup.create') }}" class="btn-muted">Change Amount</a>
+      <a href="{{ route('topup.create') }}" class="btn-back">← ប្ដូរចំនួនទឹកប្រាក់</a>
     </div>
 
   </div>
 </div>
 
 <script>
-  let timeLeft = 120;
-  const countdownElement = document.getElementById('countdown');
-  const secondsText = document.getElementById('seconds');
-  const statusBox = document.getElementById('statusBox');
+const btn = document.getElementById('verifyBtn');
+const statusBox = document.getElementById('statusBox');
 
-  const verifyUrl = @json(route('topup.verify', $topup->id));
+btn.addEventListener('click', async () => {
+  btn.disabled = true;
+  statusBox.textContent = "កំពុងពិនិត្យការទូទាត់...";
 
-  const timer = setInterval(() => {
-    timeLeft--;
-    countdownElement.textContent = timeLeft;
-    secondsText.textContent = timeLeft;
+  try {
+    const res = await fetch(@json(route('topup.verify', $topup->id)), {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' }
+    });
 
-    if (timeLeft > 0) {
-      // ✅ FIX: GET (not POST) + cache-buster to avoid caching
-      fetch(verifyUrl + '?t=' + Date.now(), {
-        method: "GET",
-        headers: { "Accept": "application/json" }
-      })
-      .then(r => r.json())
-      .then(data => {
-        const code = parseInt(data.responseCode ?? data?.data?.responseCode ?? 999);
+    const data = await res.json();
+    const code = parseInt(data.responseCode ?? 999);
 
-        if (code === 0) {
-          clearInterval(timer);
-          statusBox.textContent = "✅ Topup successful! Wallet updated.";
-          statusBox.style.background = "rgba(16,185,129,.18)";
-          statusBox.style.borderColor = "rgba(16,185,129,.35)";
-          setTimeout(() => window.location.href = @json(route('store.index')), 1200);
-        } else {
-          statusBox.textContent = "Waiting for payment...";
-        }
-      })
-      .catch(() => {
-        statusBox.textContent = "Checking payment...";
-      });
+    if (code === 0) {
+      statusBox.textContent = "✅ Topup ជោគជ័យ! Wallet ត្រូវបានអាប់ដេត";
+      statusBox.style.background = "rgba(16,185,129,.25)";
+      setTimeout(() => {
+        window.location.href = @json(route('store.index'));
+      }, 1200);
+    } else {
+      statusBox.textContent = "❌ មិនទាន់មានការទូទាត់ សូមព្យាយាមម្ដងទៀត";
+      btn.disabled = false;
     }
-
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      window.location.href = @json(route('topup.create'));
-    }
-  }, 1000);
+  } catch (e) {
+    statusBox.textContent = "❌ Error ពេលពិនិត្យការទូទាត់";
+    btn.disabled = false;
+  }
+});
 </script>
 @endsection
