@@ -12,7 +12,7 @@
     {{-- ✅ NEW: go to manual QR scan page first --}}
     <form method="GET" action="{{ route('topup.store') }}">
       <label style="font-weight:800;">Amount ($)</label>
-      <input name="amount" type="number" min="5" class="form-control" required value="{{ old('amount') }}">
+      <input name="amount" type="number" min="1" class="form-control" required value="{{ old('amount') }}">
 
       @error('amount')
         <div class="text-danger mt-2">{{ $message }}</div>
