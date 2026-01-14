@@ -136,14 +136,11 @@
 
       {{-- QR --}}
       <div class="qr-box">
-        @if ($topup->qr)
-          {!! QrCode::size(260)->generate($topup->qr) !!}
-          <div class="qr-hint">
-            បន្ទាប់ពីបង់ប្រាក់ សូមរង់ចាំ ឬចុច Verify
-          </div>
-        @else
-          <div class="alert alert-danger">❌ មិនអាចបង្កើត KHQR បាន</div>
-        @endif
+@if ($topup->qr)
+    {!! QrCode::size(260)->generate($topup->qr) !!}
+@else
+    <div>❌ មិនអាចបង្កើត KHQR បាន</div>
+@endif
       </div>
 
       {{-- Status --}}
@@ -154,6 +151,9 @@
           ⏳ កំពុងរង់ចាំការទូទាត់...
         </div>
 
+        <button id="verifyBtn" class="btn-verify">
+          🔍 Verify Payment
+        </button>
 
         <div style="margin-top:10px; font-size:13px; color:rgba(255,255,255,.75);">
           ប្រព័ន្ធនឹងពិនិត្យដោយស្វ័យប្រវត្តិ
@@ -178,7 +178,6 @@ const statusBox = document.getElementById('statusBox');
 const btn = document.getElementById('verifyBtn');
 let paid = false;
 
-/* verify function */
 async function verifyPayment(manual = false){
   if (paid) return;
 
@@ -191,6 +190,7 @@ async function verifyPayment(manual = false){
     const res = await fetch(verifyUrl + '?t=' + Date.now(), {
       headers: { 'Accept': 'application/json' }
     });
+
     const data = await res.json();
     const code = parseInt(data.responseCode ?? 999);
 
@@ -208,7 +208,7 @@ async function verifyPayment(manual = false){
       statusBox.classList.add('error');
       btn.disabled = false;
     }
-  } catch {
+  } catch (e) {
     if (manual) {
       statusBox.textContent = "❌ Error ពេលពិនិត្យ";
       btn.disabled = false;
@@ -219,7 +219,7 @@ async function verifyPayment(manual = false){
 /* auto polling every 5s */
 setInterval(() => verifyPayment(false), 5000);
 
-/* manual click */
+/* manual verify */
 btn.addEventListener('click', () => verifyPayment(true));
 </script>
 @endsection

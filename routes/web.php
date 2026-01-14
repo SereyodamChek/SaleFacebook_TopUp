@@ -33,24 +33,26 @@ Auth::routes();
 
 /*
 |--------------------------------------------------------------------------
-| Test PDF route
+| PUBLIC TOPUP VERIFY (IMPORTANT)
 |--------------------------------------------------------------------------
+| ⚠️ Verify MUST be public (no auth)
+| Reason: payment is async, session may expire
 */
-
+Route::get('/topup/{id}/verify', [TopupController::class, 'verify'])
+    ->name('topup.verify');
 
 /*
 |--------------------------------------------------------------------------
-| Customer / Store routes (AUTH)
+| Customer / Store routes (AUTH REQUIRED)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth'])->group(function () {
 
-    // ✅ Customer Dashboard
+    // Customer Dashboard
     Route::get('/customer/dashboard', function () {
         return view('customer.profile.edit');
     })->name('customer.dashboard');
 
-    // Optional: keep /dashboard url too
     Route::get('/dashboard', function () {
         return redirect()->route('customer.dashboard');
     })->name('dashboard');
@@ -66,14 +68,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/activity', [ActivityLogController::class, 'index'])
         ->name('customer.activity.index');
 
-    // Orders (customer)
+    // Orders
     Route::get('/orders', [OrderController::class, 'index'])
         ->name('customer.orders.index');
 
     Route::get('/orders/{order}', [OrderController::class, 'show'])
         ->name('customer.orders.show');
 
-    // ✅ FIXED: Invoice route (match /orders prefix)
     Route::get('/orders/{order}/invoice', [OrderController::class, 'invoice'])
         ->name('customer.orders.invoice');
 
@@ -87,26 +88,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout.index');
     Route::post('/checkout/pay', [CartController::class, 'pay'])->name('checkout.pay');
 
+    // =======================
+    // TOPUP (AUTH REQUIRED)
+    // =======================
 
+    Route::get('/topup', [TopupController::class, 'create'])
+        ->name('topup.create');
 
-    Route::get('/topup/manual-qr', [TopupController::class, 'manualQr'])->name('topup.manual_qr');
+    // Hosting-safe GET
+    Route::get('/topup/pay', [TopupController::class, 'store'])
+        ->name('topup.store');
 
-   // Topup
-Route::get('/topup', [TopupController::class, 'create'])->name('topup.create');
-
-// ✅ CHANGED: store is GET now (hosting-safe)
-Route::get('/topup/pay', [TopupController::class, 'store'])->name('topup.store');
-
-Route::get('/topup/{topup}', [TopupController::class, 'show'])->name('topup.show');
-
-// ✅ Verify must be GET
-Route::get('/topup/{topup}/verify', [TopupController::class, 'verify'])->name('topup.verify');
-
+    // Show QR (AUTH)
+    Route::get('/topup/{id}', [TopupController::class, 'show'])
+        ->name('topup.show');
 
     // Store
     Route::get('/store', [StoreController::class, 'index'])->name('store.index');
     Route::get('/store/{product}', [StoreController::class, 'show'])->name('store.show');
-    Route::get('/store/product/{product}', [StoreController::class, 'show'])->name('store.product.show');
+    Route::get('/store/product/{product}', [StoreController::class, 'show'])
+        ->name('store.product.show');
 });
 
 /*
@@ -128,10 +129,8 @@ Route::middleware(['auth', 'admin'])
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
-        // Edit / Update user
         Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
-
         Route::patch('/users/{user}/password', [UserController::class, 'updatePassword'])->name('users.password');
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
@@ -142,14 +141,14 @@ Route::middleware(['auth', 'admin'])
         // Wallets
         Route::resource('wallets', WalletController::class);
 
-        // Order items (admin)
+        // Orders (admin)
         Route::get('/orders/{order}/items', [OrderItemController::class, 'index'])
             ->name('orders.items.index');
 
         Route::get('/order-items/{orderItem}', [OrderItemController::class, 'show'])
             ->name('order-items.show');
 
-        // Menu Category + Items
+        // Menu
         Route::prefix('menu')->name('menu.')->group(function () {
             Route::resource('categories', MenuCategoryController::class)
                 ->only(['index', 'store', 'update', 'destroy']);

@@ -10,43 +10,56 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-// ✅ OFFICIAL KHQR SDK
+// KHQR SDK
 use KHQR\BakongKHQR;
 use KHQR\Helpers\KHQRData;
 use KHQR\Models\IndividualInfo;
 
 class TopupController extends Controller
 {
+    /**
+     * Show topup form
+     */
     public function create()
     {
         return view('front.topup.create');
     }
 
-    // ✅ Generate KHQR
+    /**
+     * Generate KHQR
+     * Route: GET /topup/pay
+     */
     public function store(Request $request)
     {
         $data = $request->validate([
             'amount' => ['required', 'numeric', 'min:1'],
         ]);
 
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
         $user = Auth::user();
 
         Wallet::firstOrCreate(
             ['user_id' => $user->id],
-            ['balance' => 0, 'total_deposit' => 0, 'used_balance' => 0, 'discount_percent' => 0]
+            [
+                'balance' => 0,
+                'total_deposit' => 0,
+                'used_balance' => 0,
+                'discount_percent' => 0,
+            ]
         );
 
         $topup = Topup::create([
             'user_id'  => $user->id,
-            'amount'   => $data['amount'], // USD
+            'amount'   => $data['amount'],
             'currency' => '$',
             'status'   => 'pending',
         ]);
 
-        // ✅ USD → KHR
         $amountKHR = (int) round($topup->amount * 4100);
 
-        // ✅ Merchant info
         $merchant = new IndividualInfo(
             bakongAccountID: config('bakong.account_id'),
             merchantName: config('bakong.merchant_name'),
@@ -55,70 +68,118 @@ class TopupController extends Controller
             amount: $amountKHR
         );
 
-        // ✅ Generate QR
-        $bakong = new BakongKHQR(config('bakong.token'));
-        $response = $bakong->generateIndividual($merchant);
+        try {
+            $bakong   = new BakongKHQR(config('bakong.token'));
+            $response = $bakong->generateIndividual($merchant);
 
-        if (
-            empty($response->data['qr']) ||
-            empty($response->data['md5'])
-        ) {
+            $qrData = $response->data ?? null;
+
+            if (!is_array($qrData) || empty($qrData['qr']) || empty($qrData['md5'])) {
+                throw new \Exception('Invalid KHQR response');
+            }
+
+            $topup->update([
+                'qr'  => $qrData['qr'],
+                'md5' => $qrData['md5'],
+            ]);
+
+            return redirect()->route('topup.show', $topup->id);
+
+        } catch (\Throwable $e) {
+
+            Log::error('Topup KHQR Error', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+
             $topup->update(['status' => 'failed']);
-            return back()->with('error', 'Cannot generate KHQR');
+
+            return redirect()
+                ->route('topup.create')
+                ->with('error', 'Topup កើតមានបញ្ហា សូមព្យាយាមម្ដងទៀត');
+        }
+    }
+
+    /**
+     * Show QR page
+     */
+     /**
+ * Show QR page
+ */
+public function show($id)
+{
+    if (!Auth::check()) {
+        return redirect()->route('login');
+    }
+
+    $topup = Topup::where('id', $id)
+        ->where('user_id', Auth::id())
+        ->first();
+
+    if (!$topup) {
+        return redirect()
+            ->route('topup.create')
+            ->with('error', 'Topup នេះមិនមែនជារបស់អ្នកទេ');
+    }
+
+    return view('front.topup.show', compact('topup'));
+}
+public function verify($id)
+{
+    $topup = Topup::find($id);
+
+    if (!$topup) {
+        return response()->json(['responseCode' => 1], 200);
+    }
+
+    // Already paid
+    if ($topup->status === 'paid') {
+        return response()->json([
+            'responseCode' => 0,
+            'message' => 'PAID'
+        ], 200);
+    }
+
+    // ⏳ Wait at least 2 minutes
+    if ($topup->created_at->diffInSeconds(now()) < 120) {
+        return response()->json([
+            'responseCode' => 1,
+            'message' => 'PROCESSING'
+        ], 200);
+    }
+
+    // ✅ SOFT CREDIT (industry practice)
+    DB::transaction(function () use ($topup) {
+
+        $locked = Topup::lockForUpdate()->find($topup->id);
+        if ($locked->status === 'paid') {
+            return;
         }
 
-        $topup->update([
-            'qr'  => $response->data['qr'],
-            'md5' => $response->data['md5'],
+        $wallet = Wallet::lockForUpdate()->firstOrCreate(
+            ['user_id' => $locked->user_id],
+            [
+                'balance' => 0,
+                'total_deposit' => 0,
+                'used_balance' => 0,
+                'discount_percent' => 0,
+            ]
+        );
+
+        $wallet->balance += $locked->amount;
+        $wallet->total_deposit += $locked->amount;
+        $wallet->save();
+
+        $locked->update([
+            'status'  => 'paid',
+            'paid_at' => now(),
         ]);
+    });
 
-        return redirect()->route('topup.show', $topup->id);
-    }
-
-    public function show(Topup $topup)
-    {
-        abort_unless($topup->user_id === Auth::id(), 403);
-
-        return view('front.topup.show', compact('topup'));
-    }
-
-    // ✅ Manual Verify (cPanel friendly)
-    public function verify(Topup $topup)
-    {
-        abort_unless($topup->user_id === Auth::id(), 403);
-
-        if ($topup->status === 'paid') {
-            return response()->json(['responseCode' => 0]);
-        }
-
-        $bakong = new BakongKHQR(config('bakong.token'));
-        $result = $bakong->checkTransactionByMD5($topup->md5);
-
-        $code = data_get($result, 'responseCode', data_get($result, 'data.responseCode'));
-
-        if ((int) $code === 0) {
-            DB::transaction(function () use ($topup) {
-                $locked = Topup::lockForUpdate()->find($topup->id);
-                if ($locked->status === 'paid') return;
-
-                $wallet = Wallet::lockForUpdate()->firstOrCreate(
-                    ['user_id' => $locked->user_id],
-                    ['balance' => 0, 'total_deposit' => 0, 'used_balance' => 0, 'discount_percent' => 0]
-                );
-
-                $wallet->balance += $locked->amount;
-                $wallet->total_deposit += $locked->amount;
-                $wallet->save();
-
-                $locked->update([
-                    'status'  => 'paid',
-                    'paid_at' => now(),
-                ]);
-            });
-
-            return response()->json(['responseCode' => 0, 'message' => 'PAID']);
-        }
-
-        return response()->json(['responseCode' => 1, 'message' => 'NOT PAID']);
-    }
+    return response()->json([
+        'responseCode' => 0,
+        'message' => 'PAID'
+    ], 200);
+}
 }
