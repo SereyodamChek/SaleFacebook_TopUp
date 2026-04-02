@@ -1,59 +1,135 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+📢 SaleFacebook - KHQR Top-up System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### 👨‍💻 Built by Sereyodam
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📌 About This Project
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**SaleFacebook** is a Laravel-based application designed to handle **Facebook service payments and balance top-ups** using **Bakong KHQR (KHR only)**.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This project demonstrates a real-world payment flow where users can top up balance and services are processed after successful KHQR payment verification.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🚀 Key Features
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* 💳 **Bakong KHQR Top-up System (KHR only)**
+* 🔄 **Realtime Payment Verification**
+* ⚡ Clean and optimized routing structure
+* 🧾 Transaction verification flow
+* 🧠 Backend logic for handling top-up balance
+* 🌐 Ready for deployment (Vercel configured)
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🛠️ Tech Stack
 
-### Premium Partners
+* 🐘 **Laravel (PHP Framework)**
+* ⚡ **Vite**
+* 🎨 **Blade Templates**
+* 📡 **Bakong KHQR API**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 📂 Project Structure
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+/app        → Application logic & controllers
+/routes     → Web routes
+/resources  → Views (UI)
+/config     → Configuration
+/database   → Database files
+/public     → Public assets
+/storage    → Storage
+/tests      → Testing
+```
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## ⚙️ Setup Instructions
 
-## Security Vulnerabilities
+### 1. Clone the repository
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+git clone https://github.com/YOUR_USERNAME/SaleFacebook.git
+cd SaleFacebook
+```
 
-## License
+### 2. Install dependencies
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+composer install
+npm install
+npm run dev
+```
+
+### 3. Setup environment
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 4. Configure `.env`
+
+```env
+APP_NAME="SaleFacebook"
+APP_URL=http://localhost:8000
+
+# Bakong KHQR
+BAKONG_TOKEN=your_token
+BAKONG_ACCOUNT=your_account@wing
+```
+
+---
+
+## ▶️ Run the Project
+
+```bash
+php artisan serve
+```
+
+Open:
+👉 [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+---
+
+## 🧪 How It Works
+
+1. User requests top-up or service
+2. System generates KHQR (KHR)
+3. User scans and pays via Bakong
+4. System verifies payment
+5. Balance/service is processed
+
+---
+
+## 📈 Future Improvements
+
+* 🔐 User authentication system
+* 📊 Admin dashboard
+* 🧾 Transaction history
+* 💳 Multiple payment options
+* 📡 API integration for automation
+
+---
+
+## ⚠️ Notes
+
+* This is a **demo / development project**
+* Focused on **payment flow & backend logic**
+* KHQR supports **KHR currency only**
+
+---
+
+## 📫 Contact
+
+* GitHub: [https://github.com/YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+* Email: [sereyodamc011@gmail.com](mailto:sereyodamc011@gmail.com)
+
+---
+
+⭐ *Building real-world fintech solutions with Cambodian payment systems.*
+
