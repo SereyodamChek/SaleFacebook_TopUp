@@ -1,135 +1,178 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-📢 SaleFacebook - KHQR Top-up System
 
-### 👨‍💻 Built by Sereyodam
+<div align="center">
+  <table style="border: none; background: transparent; width: auto; margin: 0 auto;">
+    <tr style="border: none; background: transparent;">
+      <td style="border: none; background: transparent; padding: 0 20px;">
+        <a href="https://laravel.com" target="_blank">
+          <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="280" alt="Laravel Logo">
+        </a>
+      </td>
+      <td style="border: none; background: transparent; font-size: 48px; font-weight: bold; color: #2d3748;">+</td>
+      <td style="border: none; background: transparent; padding: 0 20px;">
+        <a href="https://www.bakong.nbc.gov.kh/" target="_blank">
+          <img src="https://www.tenh100.com/assets/media/logos/khqr-5.png" width="120" alt="KHQR Logo">
+        </a>
+      </td>
+    </tr>
+  </table>
+
+  # 💎 SaleFacebook - KHQR Top-up System
+
+  <p align="center">
+    <strong>Premium Facebook Service Payments & Balance Top-ups</strong><br>
+    <em>Powered by Bakong KHQR (KHR) | Real-time Payment Verification</em>
+  </p>
+
+  <p align="center">
+    <a href="#"><img src="https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel Version"></a>
+    <a href="#"><img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP Version"></a>
+    <a href="#"><img src="https://img.shields.io/badge/KHQR-Bakong-00A3E0?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADwSURBVHgBpZIxTsNAEEXf2us4B4CUCCEhRKKgoqGgQsrQEyRKVHQcABp6ithT0HAEKCkQEjUFiMvC2utkKMh2nAjdIMT8aXdm/9fsCgB8AUh4Td4HQFuUhdXW7gRnr0VrrkqU1wBJ0nU8fCZEoNAvFul0mM7mKtWqlqp2tKk0w4eJzZw8NSzLQmCbCAJhQliWhTBME7ZlwTAMhGHJ8DDCtm3Ytg3DsBBih/4gIINMYFn2cY0kG+cWZBwXFzUajVk4lEmn0yjTqdR0Oo1yLGMdx3GUTmcQDIaxXq+hbdtIpdLQ+32kUink8wUYxg4kSaJgGAbKZzCbEdBCCMH1F/RfH5L4+z5vAAAAAElFTkSuQmCC" alt="KHQR"></a>
+    <a href="#"><img src="https://img.shields.io/badge/Blade-Templating-EC4A3F?style=for-the-badge&logo=laravel&logoColor=white" alt="Blade"></a>
+    <a href="#"><img src="https://img.shields.io/badge/Vite-Bundler-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite"></a>
+  </p>
+
+  <p align="center">
+    <b>Built with precision by</b> <a href="https://github.com/SereyodamChek">Sereyodam</a>
+  </p>
+</div>
 
 ---
 
 ## 📌 About This Project
 
-**SaleFacebook** is a Laravel-based application designed to handle **Facebook service payments and balance top-ups** using **Bakong KHQR (KHR only)**.
-
-This project demonstrates a real-world payment flow where users can top up balance and services are processed after successful KHQR payment verification.
+**SaleFacebook** is a premium Laravel application engineered to streamline **Facebook service payments and balance top-ups** utilizing **Bakong KHQR (KHR only)**. This project showcases a robust, production-ready payment flow where users can seamlessly top up balances, with services processing instantly after successful KHQR payment verification.
 
 ---
 
-## 🚀 Key Features
+## ✨ Key Features
 
-* 💳 **Bakong KHQR Top-up System (KHR only)**
-* 🔄 **Realtime Payment Verification**
-* ⚡ Clean and optimized routing structure
-* 🧾 Transaction verification flow
-* 🧠 Backend logic for handling top-up balance
-* 🌐 Ready for deployment (Vercel configured)
-
----
-
-## 🛠️ Tech Stack
-
-* 🐘 **Laravel (PHP Framework)**
-* ⚡ **Vite**
-* 🎨 **Blade Templates**
-* 📡 **Bakong KHQR API**
+| Feature | Description |
+|---------|-------------|
+| 💳 **Bakong KHQR Integration** | Seamless top-up system exclusively for KHR currency |
+| 🔄 **Real-time Payment Verification** | Instant transaction confirmation via Bakong API |
+| ⚡ **Optimized Architecture** | Clean, maintainable routing and backend logic |
+| 🧾 **Transaction Flow** | Complete verification pipeline for balance top-ups |
+| 🚀 **Deployment Ready** | Pre-configured for Vercel and production environments |
 
 ---
 
-## 📂 Project Structure
+## 🛠️ Technology Stack
+
+<div align="center">
+  
+| Category | Technology |
+|----------|------------|
+| **Backend Framework** | Laravel (PHP) |
+| **Frontend** | Blade Templates + Vite |
+| **Payment Gateway** | Bakong KHQR API |
+| **Build Tool** | Vite |
+| **Environment** | PHP 8.2+ |
+
+</div>
+
+---
+
+## 📂 Project Architecture
 
 ```
-/app        → Application logic & controllers
-/routes     → Web routes
-/resources  → Views (UI)
-/config     → Configuration
-/database   → Database files
-/public     → Public assets
-/storage    → Storage
-/tests      → Testing
+📦 SaleFacebook
+├── 📁 app/           → Application logic & Controllers
+├── 📁 routes/        → Web & API routes
+├── 📁 resources/     → Blade views & Frontend assets
+├── 📁 config/        → App configuration
+├── 📁 database/      → Migrations & Seeders
+├── 📁 public/        → Public entry point
+├── 📁 storage/       → Cache, logs, uploads
+└── 📁 tests/         → Unit & Feature tests
 ```
 
 ---
 
-## ⚙️ Setup Instructions
+## ⚙️ Quick Setup
 
-### 1. Clone the repository
-
+### 1️⃣ Clone Repository
 ```bash
 git clone https://github.com/YOUR_USERNAME/SaleFacebook.git
 cd SaleFacebook
 ```
 
-### 2. Install dependencies
-
+### 2️⃣ Install Dependencies
 ```bash
 composer install
 npm install
-npm run dev
+npm run build
 ```
 
-### 3. Setup environment
-
+### 3️⃣ Environment Configuration
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-### 4. Configure `.env`
-
+### 4️⃣ Configure `.env` (Critical)
 ```env
 APP_NAME="SaleFacebook"
 APP_URL=http://localhost:8000
 
-# Bakong KHQR
-BAKONG_TOKEN=your_token
+# Bakong KHQR Configuration
+BAKONG_TOKEN=your_bakong_token_here
 BAKONG_ACCOUNT=your_account@wing
 ```
 
----
-
-## ▶️ Run the Project
-
+### 5️⃣ Run Development Server
 ```bash
 php artisan serve
 ```
 
-Open:
-👉 [http://127.0.0.1:8000](http://127.0.0.1:8000)
+**Open:** [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ---
 
-## 🧪 How It Works
+## 🔄 Payment Flow
 
-1. User requests top-up or service
-2. System generates KHQR (KHR)
-3. User scans and pays via Bakong
-4. System verifies payment
-5. Balance/service is processed
-
----
-
-## 📈 Future Improvements
-
-* 🔐 User authentication system
-* 📊 Admin dashboard
-* 🧾 Transaction history
-* 💳 Multiple payment options
-* 📡 API integration for automation
+```mermaid
+flowchart LR
+    A[User Request] --> B[Generate KHQR]
+    B --> C[User Scans & Pays]
+    C --> D[Bakong Verification]
+    D --> E{Payment Success?}
+    E -->|Yes| F[Credit Balance]
+    E -->|No| G[Show Error]
+    F --> H[Service Activated]
+```
 
 ---
 
-## ⚠️ Notes
+## 🚀 Roadmap
 
-* This is a **demo / development project**
-* Focused on **payment flow & backend logic**
-* KHQR supports **KHR currency only**
-
----
-
-## 📫 Contact
-
-* GitHub: [https://github.com/SereyodamChek](https://github.com/SereyodamChek)
-* Email: [sereyodamc011@gmail.com](mailto:sereyodamc011@gmail.com)
+- [ ] 🔐 User Authentication System
+- [ ] 📊 Admin Dashboard with Analytics
+- [ ] 🧾 Detailed Transaction History
+- [ ] 💳 Multi-currency & Payment Options
+- [ ] 📡 RESTful API for Automation
 
 ---
 
-⭐ *Building real-world fintech solutions with Cambodian payment systems.*
+## ⚠️ Important Notes
 
+> **Demo / Development Project** — This application demonstrates payment flow and backend logic. KHQR supports **KHR currency only** at this time.
+
+---
+
+## 📫 Connect
+
+<div align="center">
+  
+| Platform | Link |
+|----------|------|
+| **GitHub** | [@SereyodamChek](https://github.com/SereyodamChek) |
+| **Email** | [sereyodamc011@gmail.com](mailto:sereyodamc011@gmail.com) |
+
+</div>
+
+---
+
+<div align="center">
+  <sub>⭐ Building real-world fintech solutions with Cambodian payment systems. ⭐</sub>
+</div>
+```
